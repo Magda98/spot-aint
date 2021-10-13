@@ -37,6 +37,7 @@ export default {
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  padding: 0 20px;
   .title-inner {
     margin-left: 20px;
     font-size: 60px;
