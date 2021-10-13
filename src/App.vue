@@ -1,20 +1,38 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <div id="nav"></div>
     <router-view />
   </div>
 </template>
 
 <style lang="scss">
+@import './styles/variables';
+
+body {
+  margin: 0;
+}
+
+.btn {
+  background-color: $primary;
+  border: 4px solid $primary;
+  border-radius: 50px;
+  color: #fff;
+  padding: 18px 60px;
+  font-family: 'Josefin Sans';
+  font-size: 30px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #fff;
+  background-color: $background;
+  font-family: 'Josefin Sans';
+  min-height: 100vh;
 }
 
 #nav {
