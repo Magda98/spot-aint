@@ -9,21 +9,14 @@
       </svg>
       <h1 class="title-inner">Spotify AINT</h1>
     </div>
-    <p class="text">Aby móc korzystać z aplikacji musisz się zalogować</p>
-    <button v-on:click="login" class="btn btn-primary">Zaloguj się</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import { mapActions } from 'vuex';
-
 export default {
-  name: 'Login',
+  name: 'Home',
   components: {},
-  methods: {
-    ...mapActions('user', ['login']),
-  },
 };
 </script>
 
