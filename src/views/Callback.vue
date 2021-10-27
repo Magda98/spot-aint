@@ -17,7 +17,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'Login',
+  name: 'Callback',
   components: {},
   methods: {
     ...mapActions('user', ['login', 'getToken']),
@@ -30,7 +30,6 @@ export default {
 
 <style scoped lang="scss">
 .login {
-  padding-top: 10%;
   width: 100%;
   display: flex;
   justify-content: center;

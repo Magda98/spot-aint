@@ -22,15 +22,12 @@ export default {
   methods: {
     ...mapActions('user', ['login', 'getToken']),
   },
-  created() {
-    this.getToken();
-  },
+  created() {},
 };
 </script>
 
 <style scoped lang="scss">
 .login {
-  padding-top: 10%;
   width: 100%;
   display: flex;
   justify-content: center;

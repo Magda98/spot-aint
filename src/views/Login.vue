@@ -29,7 +29,6 @@ export default {
 
 <style scoped lang="scss">
 .login {
-  padding-top: 10%;
   width: 100%;
   display: flex;
   justify-content: center;
