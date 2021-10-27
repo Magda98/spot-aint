@@ -69,19 +69,20 @@ const actions = {
     window.location.href = `${baseUrl}?client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}&response_type=${responseType}&code_challenge_method=S256&code_challenge=${code}`;
   },
 
-  getToken({ commit, state }) {
+  getToken({ commit, state, dispatch }) {
     const params = queryString.parse(location.search);
 
     api.getToken((token) => {
       console.log(token);
       commit('saveToken', { token });
       router.push('/');
+      dispatch('getUserInfo');
     }, params);
   },
-  getUserInfo({ commit }) {
+  getUserInfo({ commit, dispatch }) {
     api.getUserInfo((userInfo) => {
       if (userInfo.status === 401) {
-        this.dispatch('user/login');
+        // dispatch('user/login');
       } else {
         commit('saveUserInfo', { userInfo });
       }

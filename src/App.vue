@@ -1,10 +1,18 @@
 <template>
   <div id="app">
-    <div id="nav"></div>
+    <div id="nav"><sidebar></sidebar></div>
     <router-view />
   </div>
 </template>
 
+<script>
+import sidebar from '@/components/sidebar.vue';
+export default {
+  components: {
+    sidebar,
+  },
+};
+</script>
 <style lang="scss">
 @import './styles/variables';
 
@@ -29,6 +37,7 @@ body {
 
 #app {
   text-align: center;
+  display: flex;
   color: #fff;
   background-color: $background;
   font-family: 'Josefin Sans';
@@ -37,14 +46,12 @@ body {
 
 #nav {
   padding: 30px;
-
+  width: 307px;
+  height: 100vh;
+  background-color: $background-2;
   a {
     font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+    color: #fff;
   }
 }
 </style>
