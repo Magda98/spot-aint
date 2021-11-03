@@ -6,13 +6,19 @@ import '@fontsource/josefin-sans/400.css';
 import '@fontsource/josefin-sans/700.css';
 import axios from 'axios';
 import { api, config } from './api';
+import vuetify from '@/plugins/vuetify';
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
+  vuetify,
   render: (h) => h(App),
   created() {
+    if (this.$store.state.user.token) {
+      axios.defaults.headers.common['Authorization'] =
+        'Bearer ' + this.$store.state.user.token.access_token;
+    }
     let VueInstance = this;
     axios.interceptors.response.use(
       function (response) {

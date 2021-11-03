@@ -11,16 +11,9 @@ const state = {
 
 // getters
 const getters = {
-  userId: (state) => state.id,
   getRefreshToken: (state) => state,
-  getToken: (state) => {
-    //data
-    state.getToken;
-  },
+  getToken: (state) => state.token.access_token,
   userInfo: (state) => state.userInfo,
-  userProfile: (state) => state.userInfo.external_urls.spotify,
-  loggedIn: (state) => state.logged_in,
-  isExpired: (state) => new Date(state.expiryDate) < new Date(),
 };
 
 function randomBytes(size) {

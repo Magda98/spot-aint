@@ -46,4 +46,16 @@ export default {
         cb(e.response.data.error);
       });
   },
+
+  getUserTracks(cb) {
+    axios
+      .get('me/tracks')
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+        cb(e.response.data.error);
+      });
+  },
 };

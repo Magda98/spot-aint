@@ -14,9 +14,17 @@
 
 <script>
 // @ is an alias to /src
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
   name: 'Favourites',
   components: {},
+  methods: {
+    ...mapActions('spotify', ['getFavourites']),
+  },
+  created() {
+    this.getFavourites();
+  },
 };
 </script>
 
