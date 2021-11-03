@@ -17,21 +17,29 @@
     </div>
 
     <div class="sidebar-actions">
-      <router-link to="/" class="btn-sidebar home">
+      <router-link v-if="userInfo" to="/" class="btn-sidebar home">
         <span class="icon icon-home" v-html="home"></span>
         Strona główna
       </router-link>
-      <router-link to="/search" class="btn-sidebar search">
+      <router-link v-if="userInfo" to="/search" class="btn-sidebar search">
         <span class="icon icon-search" v-html="search"></span>
         Wyszukiwanie
       </router-link>
-      <router-link to="/favourites" class="btn-sidebar favourites">
+      <router-link
+        v-if="userInfo"
+        to="/favourites"
+        class="btn-sidebar favourites"
+      >
         <span class="icon icon-favourites" v-html="favourites"></span>
         Ulubione
       </router-link>
-      <router-link to="/Logout" class="btn-sidebar logout">
+      <router-link v-if="userInfo" to="/Logout" class="btn-sidebar logout">
         <span class="icon icon-logout" v-html="logout"></span>
         Wyloguj
+      </router-link>
+      <router-link v-if="!userInfo" to="/Login" class="btn-sidebar logout">
+        <span class="icon icon-logout" v-html="logout"></span>
+        Zaloguj
       </router-link>
     </div>
   </div>

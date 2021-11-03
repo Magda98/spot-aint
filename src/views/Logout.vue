@@ -20,9 +20,11 @@ export default {
   name: 'Logout',
   components: {},
   methods: {
-    ...mapActions('user', ['login', 'getToken']),
+    ...mapActions('user', ['logout']),
   },
-  created() {},
+  created() {
+    this.logout();
+  },
 };
 </script>
 

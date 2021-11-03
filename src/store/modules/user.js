@@ -12,7 +12,7 @@ const state = {
 // getters
 const getters = {
   userId: (state) => state.id,
-  noTokenProvided: (state) => state.noTokenProvided,
+  getRefreshToken: (state) => state,
   getToken: (state) => {
     //data
     state.getToken;
@@ -88,6 +88,10 @@ const actions = {
       }
     });
   },
+
+  logout({ commit }) {
+    commit('logout');
+  },
 };
 
 // mutations
@@ -98,6 +102,10 @@ const mutations = {
   saveUserInfo(state, { userInfo }) {
     state.userInfo = userInfo;
     state.logged_in = true;
+  },
+  logout(state) {
+    state.token = '';
+    state.userInfo = false;
   },
 };
 

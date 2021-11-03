@@ -3,11 +3,11 @@ import axios from 'axios';
 axios.defaults.baseURL = 'https://api.spotify.com/v1/';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-const api = {
+export const api = {
   clientID: '57a795ef5d9a4ccca747877d47fbc61d',
 };
 
-const config = {
+export const config = {
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
