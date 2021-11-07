@@ -90,6 +90,7 @@ const actions = {
 // mutations
 const mutations = {
   saveToken(state, { token }) {
+    console.log(token);
     state.token = token;
   },
   saveUserInfo(state, { userInfo }) {

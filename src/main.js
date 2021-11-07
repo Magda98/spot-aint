@@ -26,21 +26,23 @@ new Vue({
       },
       function (error) {
         if (error.response.status === 401) {
+          delete axios.defaults.headers.common['Authorization'];
           const urlParams = new URLSearchParams();
           urlParams.append('grant_type', 'refresh_token');
           urlParams.append(
             'refresh_token',
             VueInstance.$store.state.user.token.refresh_token,
           );
-          urlParams.append('client_id', api.clientID);
+          urlParams.append('client_id', '57a795ef5d9a4ccca747877d47fbc61d');
 
           axios
-            .post(
-              'https://accounts.spotify.com/api/token/refresh_token',
-              urlParams,
-              config,
-            )
+            .post('https://accounts.spotify.com/api/token', urlParams, {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            })
             .then((response) => {
+              console.log(response);
               axios.defaults.headers.common['Authorization'] =
                 'Bearer ' + response.data.access_token;
               VueInstance.$store.commit('user/saveToken', response.data);
