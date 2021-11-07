@@ -49,7 +49,17 @@ new Vue({
             .catch((e) => {
               return Promise.reject(error);
             });
-        } else {
+        } else if (error.response.status === 403)
+          VueInstance.$store.dispatch('toastMessage/alert', {
+            message: 'Musisz mieć konto premium aby używać tej aplikacji. 😔',
+            type: 'warning',
+          });
+        else if (error.response.status === 404)
+          VueInstance.$store.dispatch('toastMessage/alert', {
+            message: 'Player nie jest jeszcze gotowy.',
+            type: 'error',
+          });
+        else {
           return Promise.reject(error);
         }
       },

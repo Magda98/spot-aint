@@ -6,17 +6,25 @@ const state = {
 };
 
 // getters
-const getters = {};
+const getters = {
+  getFavourites: (state) => state.favouritesList,
+};
 
 // actions
 const actions = {
-  getFavourites() {
-    api.getUserTracks((response) => {});
+  fetchFavourites({ commit }) {
+    api.getUserTracks((response) => {
+      commit('saveFavourites', response);
+    });
   },
 };
 
 // mutations
-const mutations = {};
+const mutations = {
+  saveFavourites(state, payload) {
+    state.favouritesList = payload;
+  },
+};
 
 export default {
   namespaced: true,

@@ -49,13 +49,29 @@ export default {
 
   getUserTracks(cb) {
     axios
-      .get('me/tracks')
+      .get('me/tracks', {
+        params: {
+          limit: 10,
+          offset: 0,
+        },
+      })
       .then((response) => {
-        console.log(response.data);
+        cb(response.data);
       })
       .catch((e) => {
         console.log(e);
         cb(e.response.data.error);
       });
+  },
+
+  playSong(cb, data) {
+    axios
+      .put(`me/player/play?device_id=${data.id}`, {
+        uris: [data.track],
+      })
+      .then((response) => {
+        cb(response.data);
+      })
+      .catch((e) => cb(e.response.data.error));
   },
 };

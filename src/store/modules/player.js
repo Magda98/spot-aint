@@ -1,12 +1,16 @@
+import api from '@/api';
+import Vue from 'vue';
 // initial state
 const state = {
-  player: false,
+  devId: false,
 };
 
-const getters = {};
+const getters = {
+  getPlayer: (state) => state.player,
+};
 // actions
 const actions = {
-  initialization({ rootGetters }) {
+  initialization({ rootGetters, commit }) {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = rootGetters['user/getToken'];
       const player = new window.Spotify.Player({
@@ -31,6 +35,8 @@ const actions = {
 
       // Ready
       player.addListener('ready', ({ device_id }) => {
+        commit('saveDevId', device_id);
+
         console.log('Ready with Device ID', device_id);
         this.dispatch('toast/alert', {
           message: 'Odtwarzacz jest gotowy',
@@ -45,12 +51,21 @@ const actions = {
 
       // Connect to the player!
       player.connect();
+      Vue.prototype.$player = player;
     };
+  },
+
+  playSong({ state }, data) {
+    api.playSong((song) => {}, { track: data, id: state.devId });
   },
 };
 
 // mutations
-const mutations = {};
+const mutations = {
+  saveDevId(state, id) {
+    state.devId = id;
+  },
+};
 
 export default {
   namespaced: true,

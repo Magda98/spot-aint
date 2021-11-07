@@ -11,7 +11,7 @@ const state = {
 
 // getters
 const getters = {
-  getRefreshToken: (state) => state,
+  getRefreshToken: (state) => state.token.refresh_token,
   getToken: (state) => state.token.access_token,
   userInfo: (state) => state.userInfo,
 };

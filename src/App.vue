@@ -4,7 +4,7 @@
       <div id="nav"><sidebar></sidebar></div>
       <router-view />
     </div>
-
+    <player></player>
     <v-snackbar
       class="sp-snackbar"
       @input="hideAlert"
@@ -35,9 +35,11 @@
 import { mapActions, mapGetters } from 'vuex';
 
 import sidebar from '@/components/sidebar.vue';
+import player from '@/components/player.vue';
 export default {
   components: {
     sidebar,
+    player,
   },
   computed: {
     ...mapGetters('toast', [
