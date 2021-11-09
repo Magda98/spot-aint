@@ -1,6 +1,11 @@
 <template>
   <div class="player">
-    <v-slider v-model="slider" :max="max"></v-slider>
+    <v-slider
+      v-on:change="playerSeek"
+      v-model="slider"
+      :max="max"
+      :min="0"
+    ></v-slider>
     <button class="paly">
       <svg
         @click="playerResume"
@@ -46,18 +51,11 @@ export default {
       get() {
         return this.sliderVal;
       },
-      set(val) {
-        this.playerSeek(val);
-      },
+      set(val) {},
     },
   },
   methods: {
     ...mapActions('player', ['playerPause', 'playerResume', 'playerSeek']),
-  },
-  data() {
-    return {
-      min: -50,
-    };
   },
 };
 </script>

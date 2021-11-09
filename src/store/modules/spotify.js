@@ -10,6 +10,8 @@ const state = {
 // getters
 const getters = {
   getFavourites: (state) => state.favouritesList,
+  getCurrentUris: (state) =>
+    state.favouritesList.items.map((item) => item.track.uri),
 };
 
 // actions

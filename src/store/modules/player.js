@@ -4,9 +4,9 @@ import Vue from 'vue';
 const state = {
   devId: false,
   playing: false,
-  min: 0,
   max: 100,
   slider: 0,
+  timestamp: 0,
 };
 
 const getters = {
@@ -44,8 +44,8 @@ const actions = {
       // Playback status updates
       player.addListener('player_state_changed', (statePlayer) => {
         console.log(statePlayer);
+
         if (!statePlayer.paused && !state.playing) {
-          commit('setPlaying', statePlayer);
           if (!Vue.prototype.$interval) {
             Vue.prototype.$interval = setInterval(() => {
               dispatch('playerUpdateSlider');
@@ -54,6 +54,9 @@ const actions = {
             clearInterval(Vue.prototype.$interval);
             Vue.prototype.$interval = false;
           }
+        }
+        if (!statePlayer.paused) {
+          commit('setPlaying', statePlayer);
         }
       });
 
@@ -109,7 +112,7 @@ const actions = {
   playerUpdateSlider({ commit }) {
     Vue.prototype.$player
       .getCurrentState()
-      .then((response) => commit('setSlider', response.position));
+      .then((response) => commit('setSlider', response));
   },
 };
 
@@ -120,15 +123,18 @@ const mutations = {
   },
   setPlaying(state, player) {
     state.playing = true;
-    state.slider = player.position;
-    state.max = player.duration;
+    state.slider = Number.parseInt(player.position);
+    state.max = Number.parseInt(player.duration);
   },
   setPlayingPaused(state) {
     state.playing = false;
   },
 
-  setSlider(state, position) {
-    state.slider = position;
+  setSlider(state, playerState) {
+    if (state.timestamp < playerState.timestamp) {
+      state.slider = playerState.position;
+      state.timestamp = playerState.timestamp;
+    }
   },
 };
 

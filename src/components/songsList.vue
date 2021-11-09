@@ -28,7 +28,7 @@
       v-for="(track, index) in tracks.items"
       :key="track.track.id"
       class="track"
-      @click="playSong(track.track.uri)"
+      @click="playSong({ uris: currentUris, offset: index })"
     >
       <span class="id">{{ index + 1 + tracks.offset }}</span>
       <div class="song-info">
@@ -51,6 +51,7 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   props: {
     tracks: {},
+    currentUris: [],
   },
   methods: {
     ...mapActions('player', ['playSong']),

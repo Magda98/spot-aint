@@ -1,7 +1,10 @@
 <template>
   <div class="favourites">
     <h1>Ulubione utwory</h1>
-    <songsList :tracks="getFavourites"></songsList>
+    <songsList
+      :tracks="getFavourites"
+      :currentUris="getCurrentUris"
+    ></songsList>
     <div class="pagination">
       <v-pagination
         flat
@@ -36,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('spotify', ['getFavourites']),
+    ...mapGetters('spotify', ['getFavourites', 'getCurrentUris']),
   },
 };
 </script>

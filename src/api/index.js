@@ -66,9 +66,13 @@ export default {
   },
 
   playSong(cb, data) {
+    console.log(data);
     axios
       .put(`me/player/play?device_id=${data.id}`, {
-        uris: [data.track],
+        uris: data.track.uris,
+        offset: {
+          position: data.track.offset,
+        },
       })
       .then((response) => {
         cb(response.data);
