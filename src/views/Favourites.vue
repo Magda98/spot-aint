@@ -1,6 +1,14 @@
 <template>
   <div class="favourites">
+    <h1>Ulubione utwory</h1>
     <songsList :tracks="getFavourites"></songsList>
+    <div class="pagination">
+      <v-pagination
+        flat
+        v-model="page"
+        :length="Number.parseInt(getFavourites.total / getFavourites.limit)"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
@@ -15,7 +23,17 @@ export default {
     ...mapActions('spotify', ['fetchFavourites']),
   },
   created() {
-    this.fetchFavourites();
+    this.fetchFavourites(0);
+  },
+  watch: {
+    page: function (page) {
+      this.fetchFavourites((page - 1) * this.getFavourites.limit);
+    },
+  },
+  data() {
+    return {
+      page: 1,
+    };
   },
   computed: {
     ...mapGetters('spotify', ['getFavourites']),
@@ -27,8 +45,19 @@ export default {
 .favourites {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+}
+.pagination {
+  max-width: 500px;
+}
+h1 {
+  text-align: left;
+  width: 100%;
+  padding: 0 20px;
+  margin: 30px 0 20px 0;
+  font-size: 26px;
+  font-weight: 700;
 }
 </style>

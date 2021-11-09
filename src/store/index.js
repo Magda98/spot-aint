@@ -13,5 +13,5 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: { user, player, toast, spotify },
-  plugins: [createPersistedState()],
+  plugins: [createPersistedState({ paths: ['user', 'spotify'] })],
 });

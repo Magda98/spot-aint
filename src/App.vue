@@ -4,7 +4,7 @@
       <div id="nav"><sidebar></sidebar></div>
       <router-view />
     </div>
-    <player></player>
+    <player v-if="userInfo"></player>
     <v-snackbar
       class="sp-snackbar"
       @input="hideAlert"
@@ -49,14 +49,12 @@ export default {
       'message',
       'showAlert',
     ]),
+    ...mapGetters('user', ['userInfo']),
   },
   methods: {
-    ...mapActions('player', ['initialization']),
     ...mapActions('toast', ['hideAlert']),
   },
-  created() {
-    this.initialization();
-  },
+  created() {},
 };
 </script>
 <style lang="scss">
@@ -85,14 +83,37 @@ body {
   display: flex;
   color: #fff;
   background-color: $background;
-  font-family: 'Josefin Sans';
+  font-family: 'Josefin Sans' !important;
   min-height: 100vh;
+
+  .title {
+    font-family: 'Josefin Sans' !important;
+  }
+
+  .pagination {
+    ul li button {
+      background: transparent;
+      box-shadow: none;
+      color: #fff;
+      transition: background-color 0.3s;
+      i {
+        color: #fff;
+      }
+
+      &.v-pagination__item--active {
+        background-color: $background-2 !important;
+      }
+      &:hover {
+        background-color: $background-2 !important;
+      }
+    }
+  }
 }
 
 #nav {
   padding: 30px;
   width: 307px;
-  height: 100vh;
+  min-height: 100vh;
   background-color: $background-2;
   a {
     font-weight: bold;

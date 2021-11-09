@@ -73,6 +73,10 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  padding: 10px 15px;
+  p {
+    margin-bottom: 0;
+  }
 }
 .user-image {
   width: 30px;
@@ -84,10 +88,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   .title-inner {
     margin-left: 20px;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     margin-bottom: 0;
     margin-top: 0;
@@ -99,7 +103,7 @@ export default {
 }
 
 .sidebar-actions {
-  margin-top: 50px;
+  margin-top: 40px;
   .btn-sidebar {
     display: flex;
     align-items: center;

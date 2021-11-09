@@ -3,10 +3,12 @@ import Vue from 'vue';
 // initial state
 const state = {
   devId: false,
+  playing: false,
 };
 
 const getters = {
   getPlayer: (state) => state.player,
+  getPlayerState: (state) => state.playing,
 };
 // actions
 const actions = {
@@ -27,11 +29,19 @@ const actions = {
       player.addListener('authentication_error', ({ message }) => {
         console.error(message);
       });
-      player.addListener('account_error', ({ message }) => {});
-      player.addListener('playback_error', ({ message }) => {});
+      player.addListener('account_error', ({ message }) => {
+        console.error(message);
+      });
+      player.addListener('playback_error', ({ message }) => {
+        console.error(message);
+      });
 
       // Playback status updates
-      player.addListener('player_state_changed', (statePlayer) => {});
+      player.addListener('player_state_changed', (statePlayer) => {
+        if (!statePlayer.paused) {
+          commit('setPlaying');
+        }
+      });
 
       // Ready
       player.addListener('ready', ({ device_id }) => {
@@ -46,7 +56,7 @@ const actions = {
 
       // Not Ready
       player.addListener('not_ready', ({ device_id }) => {
-        // console.log('Device ID has gone offline', device_id);
+        console.log('Device ID has gone offline', device_id);
       });
 
       // Connect to the player!
@@ -56,7 +66,17 @@ const actions = {
   },
 
   playSong({ state }, data) {
-    api.playSong((song) => {}, { track: data, id: state.devId });
+    api.playSong(
+      (response) => {
+        if (response.status === 404) {
+          this.dispatch('toast/alert', {
+            message: response.message,
+            type: 'error',
+          });
+        }
+      },
+      { track: data, id: state.devId },
+    );
   },
 };
 
@@ -64,6 +84,12 @@ const actions = {
 const mutations = {
   saveDevId(state, id) {
     state.devId = id;
+  },
+  setPlaying(state) {
+    state.playing = true;
+  },
+  setPlayingPaused(state) {
+    state.playing = false;
   },
 };
 

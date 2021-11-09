@@ -15,6 +15,7 @@ export const config = {
 
 export default {
   getToken(cb, params) {
+    delete axios.defaults.headers.common['Authorization'];
     const code_verifier = window.sessionStorage.getItem('code_verifier');
     const urlParams = new URLSearchParams();
     urlParams.append('grant_type', 'authorization_code');
@@ -39,7 +40,6 @@ export default {
       .get('me')
       .then((response) => {
         cb(response.data);
-        console.log(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -47,15 +47,16 @@ export default {
       });
   },
 
-  getUserTracks(cb) {
+  getUserTracks(cb, payload) {
     axios
       .get('me/tracks', {
         params: {
-          limit: 10,
-          offset: 0,
+          limit: 7,
+          offset: payload,
         },
       })
       .then((response) => {
+        console.log(response.data);
         cb(response.data);
       })
       .catch((e) => {

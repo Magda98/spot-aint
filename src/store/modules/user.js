@@ -4,9 +4,9 @@ import queryString from 'query-string';
 
 // initial state
 const state = {
-  getToken: false,
-  token: String,
+  token: false,
   userInfo: false,
+  logged_in: false,
 };
 
 // getters
@@ -14,6 +14,7 @@ const getters = {
   getRefreshToken: (state) => state.token.refresh_token,
   getToken: (state) => state.token.access_token,
   userInfo: (state) => state.userInfo,
+  isLogged: (state) => state.logged_in,
 };
 
 function randomBytes(size) {
@@ -66,19 +67,15 @@ const actions = {
     const params = queryString.parse(location.search);
 
     api.getToken((token) => {
-      console.log(token);
       commit('saveToken', { token });
-      router.push('/');
       dispatch('getUserInfo');
+      router.push('/');
+      window.location.reload();
     }, params);
   },
   getUserInfo({ commit, dispatch }) {
     api.getUserInfo((userInfo) => {
-      if (userInfo.status === 401) {
-        // dispatch('user/login');
-      } else {
-        commit('saveUserInfo', { userInfo });
-      }
+      commit('saveUserInfo', { userInfo });
     });
   },
 
@@ -90,8 +87,8 @@ const actions = {
 // mutations
 const mutations = {
   saveToken(state, { token }) {
-    console.log(token);
     state.token = token;
+    state.logged_in = true;
   },
   saveUserInfo(state, { userInfo }) {
     state.userInfo = userInfo;
@@ -100,6 +97,7 @@ const mutations = {
   logout(state) {
     state.token = '';
     state.userInfo = false;
+    state.logged_in = false;
   },
 };
 
