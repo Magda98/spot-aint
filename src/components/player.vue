@@ -1,8 +1,9 @@
 <template>
   <div class="player">
-    <v-slider v-model="value" step="10" thumb-label ticks></v-slider>
+    <v-slider v-model="slider" :max="max"></v-slider>
     <button class="paly">
       <svg
+        @click="playerResume"
         v-if="!getPlayerState"
         viewBox="0 0 26 32"
         fill="none"
@@ -17,6 +18,7 @@
         />
       </svg>
       <svg
+        @click="playerPause"
         v-if="getPlayerState"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -34,12 +36,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   created() {},
   computed: {
-    ...mapGetters('player', ['getPlayerState']),
+    ...mapGetters('player', ['getPlayerState', 'max', 'sliderVal']),
+    slider: {
+      get() {
+        return this.sliderVal;
+      },
+      set(val) {
+        this.playerSeek(val);
+      },
+    },
+  },
+  methods: {
+    ...mapActions('player', ['playerPause', 'playerResume', 'playerSeek']),
+  },
+  data() {
+    return {
+      min: -50,
+    };
   },
 };
 </script>

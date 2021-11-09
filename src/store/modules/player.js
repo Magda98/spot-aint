@@ -4,15 +4,20 @@ import Vue from 'vue';
 const state = {
   devId: false,
   playing: false,
+  min: 0,
+  max: 100,
+  slider: 0,
 };
 
 const getters = {
   getPlayer: (state) => state.player,
   getPlayerState: (state) => state.playing,
+  max: (state) => state.max,
+  sliderVal: (state) => state.slider,
 };
 // actions
 const actions = {
-  initialization({ rootGetters, commit }) {
+  initialization({ rootGetters, commit, dispatch }) {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = rootGetters['user/getToken'];
       const player = new window.Spotify.Player({
@@ -38,8 +43,17 @@ const actions = {
 
       // Playback status updates
       player.addListener('player_state_changed', (statePlayer) => {
-        if (!statePlayer.paused) {
-          commit('setPlaying');
+        console.log(statePlayer);
+        if (!statePlayer.paused && !state.playing) {
+          commit('setPlaying', statePlayer);
+          if (!Vue.prototype.$interval) {
+            Vue.prototype.$interval = setInterval(() => {
+              dispatch('playerUpdateSlider');
+            }, 1000);
+          } else if (statePlayer.paused) {
+            clearInterval(Vue.prototype.$interval);
+            Vue.prototype.$interval = false;
+          }
         }
       });
 
@@ -78,6 +92,25 @@ const actions = {
       { track: data, id: state.devId },
     );
   },
+
+  playerPause({ commit }) {
+    Vue.prototype.$player.togglePlay();
+    commit('setPlayingPaused');
+  },
+
+  playerResume({ dispatch }) {
+    Vue.prototype.$player.togglePlay();
+  },
+
+  playerSeek({ commit }, val) {
+    Vue.prototype.$player.seek(val);
+  },
+
+  playerUpdateSlider({ commit }) {
+    Vue.prototype.$player
+      .getCurrentState()
+      .then((response) => commit('setSlider', response.position));
+  },
 };
 
 // mutations
@@ -85,11 +118,17 @@ const mutations = {
   saveDevId(state, id) {
     state.devId = id;
   },
-  setPlaying(state) {
+  setPlaying(state, player) {
     state.playing = true;
+    state.slider = player.position;
+    state.max = player.duration;
   },
   setPlayingPaused(state) {
     state.playing = false;
+  },
+
+  setSlider(state, position) {
+    state.slider = position;
   },
 };
 

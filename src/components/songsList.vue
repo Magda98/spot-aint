@@ -28,9 +28,10 @@
       v-for="(track, index) in tracks.items"
       :key="track.track.id"
       class="track"
+      @click="playSong(track.track.uri)"
     >
       <span class="id">{{ index + 1 + tracks.offset }}</span>
-      <div @click="playSong(track.track.uri)" class="song-info">
+      <div class="song-info">
         <img :src="track.track.album.images[0].url" />
         <div class="title-section">
           <h3 class="title">{{ track.track.name }}</h3>
