@@ -14,13 +14,15 @@
 
 <script>
 // @ is an alias to /src
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Callback',
   components: {},
+  computed: {},
   methods: {
     ...mapActions('user', ['login', 'getToken']),
+    ...mapActions('player', ['initialization']),
   },
   created() {
     this.getToken();

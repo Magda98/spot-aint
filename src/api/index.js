@@ -42,7 +42,7 @@ export default {
         cb(response.data);
       })
       .catch((e) => {
-        console.log(e);
+        console.log('blad', e);
         cb(e.response.data.error);
       });
   },
@@ -56,7 +56,6 @@ export default {
         },
       })
       .then((response) => {
-        console.log(response.data);
         cb(response.data);
       })
       .catch((e) => {

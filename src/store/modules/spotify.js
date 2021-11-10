@@ -33,7 +33,6 @@ const mutations = {
       });
       item.track.duration = format(new Date(item.track.duration_ms), 'mm:ss');
     });
-    console.log(payload);
     state.favouritesList = payload;
   },
 };

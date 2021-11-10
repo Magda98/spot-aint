@@ -1,5 +1,5 @@
 <template>
-  <div class="songsList">
+  <div class="songsList" v-if="tracks.items">
     <div class="header">
       <div class="id">#</div>
       <div class="title">Tytuł</div>

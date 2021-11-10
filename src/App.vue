@@ -89,7 +89,19 @@ body {
   .title {
     font-family: 'Josefin Sans' !important;
   }
-
+  .v-input__slot {
+    margin: 0;
+  }
+  .v-slider__track-container {
+    height: 5px;
+    .primary.lighten-3 {
+      background-color: #fff !important;
+      border-color: #fff !important;
+    }
+  }
+  .v-slider__track {
+    height: 5px;
+  }
   .pagination {
     ul li button {
       background: transparent;
@@ -120,6 +132,7 @@ body {
     color: #fff;
   }
 }
+
 .sp-snackbar {
   .v-snack__content {
     position: relative;

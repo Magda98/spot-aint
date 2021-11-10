@@ -7,6 +7,7 @@ const state = {
   max: 100,
   slider: 0,
   timestamp: 0,
+  songInfo: {},
 };
 
 const getters = {
@@ -14,6 +15,7 @@ const getters = {
   getPlayerState: (state) => state.playing,
   max: (state) => state.max,
   sliderVal: (state) => state.slider,
+  songInfo: (state) => state.songInfo,
 };
 // actions
 const actions = {
@@ -125,6 +127,7 @@ const mutations = {
     state.playing = true;
     state.slider = Number.parseInt(player.position);
     state.max = Number.parseInt(player.duration);
+    state.songInfo = player;
   },
   setPlayingPaused(state) {
     state.playing = false;

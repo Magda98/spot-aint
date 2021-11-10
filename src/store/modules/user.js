@@ -13,6 +13,7 @@ const state = {
 const getters = {
   getRefreshToken: (state) => state.token.refresh_token,
   getToken: (state) => state.token.access_token,
+  token: (state) => state.token.access_token,
   userInfo: (state) => state.userInfo,
   isLogged: (state) => state.logged_in,
 };
@@ -69,12 +70,10 @@ const actions = {
     api.getToken((token) => {
       commit('saveToken', { token });
       dispatch('getUserInfo');
-      router.push('/');
-      window.location.reload();
     }, params);
   },
   getUserInfo({ commit, dispatch }) {
-    api.getUserInfo((userInfo) => {
+    return api.getUserInfo((userInfo) => {
       commit('saveUserInfo', { userInfo });
     });
   },
@@ -93,6 +92,10 @@ const mutations = {
   saveUserInfo(state, { userInfo }) {
     state.userInfo = userInfo;
     state.logged_in = true;
+    setTimeout(function () {
+      router.push('/');
+      window.location.reload();
+    }, 200);
   },
   logout(state) {
     state.token = '';

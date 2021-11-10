@@ -20,9 +20,7 @@ new Vue({
         'Bearer ' + this.$store.state.user.token.access_token;
       this.$store.dispatch('player/initialization');
     }
-    if (this.$store.state.user.logged_in) {
-      this.$store.dispatch('user/getUserInfo');
-    }
+
     let VueInstance = this;
     // axios.interceptors.response.use(
     //   function (response) {
