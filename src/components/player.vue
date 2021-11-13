@@ -4,7 +4,7 @@
       class="player-slider"
       color="#1ed760"
       v-on:change="playerSeek"
-      v-model="slider"
+      v-model="sliderModel"
       :max="max"
       :min="0"
     ></v-slider>
@@ -34,7 +34,11 @@
         </div>
       </div>
       <div class="player-actions">
-        <button :disabled="songInfo.disallows.skipping_prev" class="prev">
+        <button
+          :disabled="playerDisallowsPrev"
+          @click="playerPrevSong"
+          class="prev"
+        >
           <svg
             viewBox="0 0 52 52"
             fill="none"
@@ -43,7 +47,7 @@
             <path
               d="M23.833 36.833L13 26l10.833-10.833M39 36.833L28.167 26 39 15.167"
               stroke="#fff"
-              stroke-width="2"
+              stroke-width="3"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -60,7 +64,7 @@
             <path
               d="M1.917 1.75L24.083 16 1.917 30.25V1.75z"
               stroke="#fff"
-              stroke-width="1"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -72,7 +76,7 @@
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1"
+            stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
             class="prefix__feather prefix__feather-pause"
@@ -80,7 +84,11 @@
             <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
           </svg>
         </button>
-        <button :disabled="songInfo.disallows.skipping_next" class="next">
+        <button
+          @click="playerNextSong"
+          :disabled="playerDisallowsNext"
+          class="next"
+        >
           <svg
             viewBox="0 0 52 52"
             fill="none"
@@ -89,7 +97,7 @@
             <path
               d="M28.167 36.833L39 26 28.167 15.167M13 36.833L23.833 26 13 15.167"
               stroke="#fff"
-              stroke-width="2"
+              stroke-width="3"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -106,17 +114,20 @@
             <path
               d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07"
               stroke="#fff"
-              stroke-width="1"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
           </svg>
         </button>
         <v-slider
+          v-on:change="playerSetVolume"
+          v-model="sliderVolumeModel"
           class="volume-slider"
           hint="Regulacja głośności"
-          max="100"
-          min="0"
+          max="1.0"
+          step="0.1"
+          min="0.0"
           color="#1ed760"
         ></v-slider>
         <button class="vol-max">
@@ -128,7 +139,7 @@
             <path
               d="M10 1.07l-5 4H1v6h4l5 4v-14zM18.07 1a10 10 0 010 14.14M14.54 4.53a5 5 0 010 7.07"
               stroke="#fff"
-              stroke-width="1"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
@@ -145,16 +156,37 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   created() {},
   computed: {
-    ...mapGetters('player', ['getPlayerState', 'max', 'sliderVal', 'songInfo']),
-    slider: {
+    ...mapGetters('player', [
+      'getPlayerState',
+      'max',
+      'sliderSong',
+      'songInfo',
+      'sliderVolume',
+      'playerDisallowsPrev',
+      'playerDisallowsNext',
+    ]),
+    sliderModel: {
       get() {
-        return this.sliderVal;
+        return this.sliderSong;
+      },
+      set(val) {},
+    },
+    sliderVolumeModel: {
+      get() {
+        return this.sliderVolume;
       },
       set(val) {},
     },
   },
   methods: {
-    ...mapActions('player', ['playerPause', 'playerResume', 'playerSeek']),
+    ...mapActions('player', [
+      'playerPause',
+      'playerResume',
+      'playerSeek',
+      'playerSetVolume',
+      'playerNextSong',
+      'playerPrevSong',
+    ]),
   },
 };
 </script>

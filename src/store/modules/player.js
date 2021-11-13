@@ -8,18 +8,22 @@ const state = {
   slider: 0,
   timestamp: 0,
   songInfo: {},
+  volume: 0.5,
 };
 
 const getters = {
   getPlayer: (state) => state.player,
   getPlayerState: (state) => state.playing,
   max: (state) => state.max,
-  sliderVal: (state) => state.slider,
+  sliderSong: (state) => state.slider,
   songInfo: (state) => state.songInfo,
+  sliderVolume: (state) => state.volume,
+  playerDisallowsPrev: (state) => state.songInfo?.disallows?.skipping_prev,
+  playerDisallowsNext: (state) => state.songInfo?.disallows?.skipping_next,
 };
 // actions
 const actions = {
-  initialization({ rootGetters, commit, dispatch }) {
+  initialization({ rootGetters, commit, dispatch, state }) {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = rootGetters['user/getToken'];
       const player = new window.Spotify.Player({
@@ -27,7 +31,7 @@ const actions = {
         getOAuthToken: (cb) => {
           cb(token);
         },
-        volume: 0.5,
+        volume: state.volume,
       });
       // Error handling
       player.addListener('initialization_error', ({ message }) => {
@@ -116,6 +120,16 @@ const actions = {
       .getCurrentState()
       .then((response) => commit('setSlider', response));
   },
+  playerSetVolume({ commit }, payload) {
+    Vue.prototype.$player.setVolume(payload);
+    commit('setVolume', payload);
+  },
+  playerNextSong() {
+    Vue.prototype.$player.nextTrack();
+  },
+  playerPrevSong() {
+    Vue.prototype.$player.previousTrack();
+  },
 };
 
 // mutations
@@ -138,6 +152,9 @@ const mutations = {
       state.slider = playerState.position;
       state.timestamp = playerState.timestamp;
     }
+  },
+  setVolume(state, volume) {
+    state.volume = volume;
   },
 };
 
