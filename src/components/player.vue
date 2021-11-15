@@ -18,6 +18,7 @@
           </div>
           <button class="save-track">
             <svg
+              v-if="!currentUserTrack"
               viewBox="0 0 36 36"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -25,6 +26,21 @@
               <path
                 d="M31.26 6.915a8.25 8.25 0 00-11.67 0L18 8.505l-1.59-1.59a8.252 8.252 0 00-11.67 11.67l1.59 1.59L18 31.845l11.67-11.67 1.59-1.59a8.25 8.25 0 000-11.67v0z"
                 stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <svg
+              v-if="currentUserTrack"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M31.26 6.915a8.25 8.25 0 00-11.67 0L18 8.505l-1.59-1.59a8.252 8.252 0 00-11.67 11.67l1.59 1.59L18 31.845l11.67-11.67 1.59-1.59a8.25 8.25 0 000-11.67v0z"
+                stroke="#fff"
+                fill="#fff"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -164,18 +180,27 @@ export default {
       'sliderVolume',
       'playerDisallowsPrev',
       'playerDisallowsNext',
+      'currentSongId',
     ]),
+    ...mapGetters('spotify', ['currentUserTrack']),
+
     sliderModel: {
       get() {
         return this.sliderSong;
       },
       set(val) {},
     },
+
     sliderVolumeModel: {
       get() {
         return this.sliderVolume;
       },
       set(val) {},
+    },
+  },
+  watch: {
+    currentSongId: function (val) {
+      this.checkIfUserTracks(val);
     },
   },
   methods: {
@@ -187,6 +212,7 @@ export default {
       'playerNextSong',
       'playerPrevSong',
     ]),
+    ...mapActions('spotify', ['checkIfUserTracks']),
   },
 };
 </script>

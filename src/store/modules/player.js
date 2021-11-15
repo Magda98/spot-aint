@@ -20,6 +20,7 @@ const getters = {
   sliderVolume: (state) => state.volume,
   playerDisallowsPrev: (state) => state.songInfo?.disallows?.skipping_prev,
   playerDisallowsNext: (state) => state.songInfo?.disallows?.skipping_next,
+  currentSongId: (state) => state.songInfo?.track_window?.current_track?.id,
 };
 // actions
 const actions = {
@@ -49,13 +50,11 @@ const actions = {
 
       // Playback status updates
       player.addListener('player_state_changed', (statePlayer) => {
-        console.log(statePlayer);
-
         if (!statePlayer.paused && !state.playing) {
           if (!Vue.prototype.$interval) {
             Vue.prototype.$interval = setInterval(() => {
               dispatch('playerUpdateSlider');
-            }, 1000);
+            }, 1200);
           } else if (statePlayer.paused) {
             clearInterval(Vue.prototype.$interval);
             Vue.prototype.$interval = false;
@@ -70,7 +69,6 @@ const actions = {
       player.addListener('ready', ({ device_id }) => {
         commit('saveDevId', device_id);
 
-        console.log('Ready with Device ID', device_id);
         this.dispatch('toast/alert', {
           message: 'Odtwarzacz jest gotowy',
           type: 'success',
@@ -104,6 +102,8 @@ const actions = {
 
   playerPause({ commit }) {
     Vue.prototype.$player.togglePlay();
+    clearInterval(Vue.prototype.$interval);
+    Vue.prototype.$interval = false;
     commit('setPlayingPaused');
   },
 
@@ -115,10 +115,16 @@ const actions = {
     Vue.prototype.$player.seek(val);
   },
 
-  playerUpdateSlider({ commit }) {
-    Vue.prototype.$player
-      .getCurrentState()
-      .then((response) => commit('setSlider', response));
+  playerUpdateSlider({ commit, state }) {
+    Vue.prototype.$player.getCurrentState().then((response) => {
+      if (
+        Math.abs(state.slider - response.position) > 1000 &&
+        state.timestamp < response.timestamp
+      ) {
+        Vue.prototype.$sliderPosition = response.position;
+        commit('setSlider', response);
+      }
+    });
   },
   playerSetVolume({ commit }, payload) {
     Vue.prototype.$player.setVolume(payload);
@@ -139,8 +145,6 @@ const mutations = {
   },
   setPlaying(state, player) {
     state.playing = true;
-    state.slider = Number.parseInt(player.position);
-    state.max = Number.parseInt(player.duration);
     state.songInfo = player;
   },
   setPlayingPaused(state) {
@@ -148,10 +152,9 @@ const mutations = {
   },
 
   setSlider(state, playerState) {
-    if (state.timestamp < playerState.timestamp) {
-      state.slider = playerState.position;
-      state.timestamp = playerState.timestamp;
-    }
+    state.slider = playerState.position;
+    state.timestamp = playerState.timestamp;
+    state.max = playerState.duration;
   },
   setVolume(state, volume) {
     state.volume = volume;
