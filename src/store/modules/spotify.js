@@ -30,9 +30,9 @@ const getters = {
   featuredPlaylists: (state) => state.featuredPlaylists,
   searchResult: (state) => state.searchResult,
   searchResultUris: (state) => {
-    if (state.searchResult)
-      return state.searchResult?.items.map((item) => item?.track.uri);
-    else return false;
+    if (state.searchResult) {
+      return state.searchResult.tracks.items.map((item) => item.uri);
+    } else return false;
   },
 };
 
@@ -88,6 +88,7 @@ const actions = {
   getSearchResult({ commit }, query) {
     api.getSearchResult((response) => {
       commit('saveSearchResult', response);
+      console.log(response);
     }, query);
   },
 };
@@ -132,6 +133,9 @@ const mutations = {
     state.featuredPlaylists = playlists;
   },
   saveSearchResult(state, searchResult) {
+    searchResult.tracks.items.forEach((item) => {
+      item.duration = format(new Date(item.duration_ms), 'mm:ss');
+    });
     state.searchResult = searchResult;
   },
 };
