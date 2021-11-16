@@ -20,7 +20,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import songsList from '../components/songsList.vue';
 export default {
-  name: 'Favourites',
+  name: 'Playlist',
   components: { songsList },
   methods: {
     ...mapActions('spotify', ['fetchFavourites']),

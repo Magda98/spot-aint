@@ -76,13 +76,40 @@ export default {
       .catch((e) => cb(e.response.data.error));
   },
   checkIfUserTracks(cb, song) {
-    console.log(song);
     axios
       .get(`me/tracks/contains`, {
         params: {
           ids: song,
         },
       })
+      .then((response) => {
+        cb(response.data);
+      })
+      .catch((e) => cb(e.response.data.error));
+  },
+  saveUserTracks(cb, song) {
+    axios
+      .put(`me/tracks`, [song])
+      .then(() => {
+        cb();
+      })
+      .catch((e) => cb(e.response.data.error));
+  },
+  deleteUserTracks(cb, song) {
+    axios
+      .delete(`me/tracks`, {
+        params: {
+          ids: song,
+        },
+      })
+      .then(() => {
+        cb();
+      })
+      .catch((e) => cb(e.response.data.error));
+  },
+  getPlaylists(cb, song) {
+    axios
+      .get(`me/playlists`)
       .then((response) => {
         cb(response.data);
       })

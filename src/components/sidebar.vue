@@ -42,11 +42,22 @@
         Zaloguj
       </router-link>
     </div>
+
+    <div v-if="playlists" class="plylists">
+      <div v-for="playlist in playlists.items" :key="playlist.id">
+        <router-link :to="{ name: 'Playlist', params: { id: playlist.id } }">
+          <div class="playlist">
+            <img :src="playlist.images[0].url" />
+            <h5>{{ playlist.name }}</h5>
+          </div>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'sidebar',
   data() {
@@ -62,8 +73,16 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['userInfo']),
+    ...mapGetters('spotify', ['playlists']),
   },
-  created() {},
+  methods: {
+    ...mapActions('spotify', ['getPlaylists']),
+  },
+  created() {
+    if (this.userInfo) {
+      this.getPlaylists();
+    }
+  },
 };
 </script>
 
@@ -125,6 +144,24 @@ export default {
     width: 24px;
     margin-right: 20px;
     display: block;
+  }
+}
+
+.plylists {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 50px;
+  div.playlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  img {
+    width: 30px;
+    margin-right: 15px;
   }
 }
 </style>

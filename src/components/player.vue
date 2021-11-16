@@ -19,6 +19,7 @@
           <button class="save-track">
             <svg
               v-if="!currentUserTrack"
+              @click="saveUserTracks(currentSongId)"
               viewBox="0 0 36 36"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -33,6 +34,7 @@
             </svg>
             <svg
               v-if="currentUserTrack"
+              @click="deleteUserTracks(currentSongId)"
               viewBox="0 0 36 36"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -212,7 +214,11 @@ export default {
       'playerNextSong',
       'playerPrevSong',
     ]),
-    ...mapActions('spotify', ['checkIfUserTracks']),
+    ...mapActions('spotify', [
+      'checkIfUserTracks',
+      'saveUserTracks',
+      'deleteUserTracks',
+    ]),
   },
 };
 </script>

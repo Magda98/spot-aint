@@ -66,6 +66,8 @@ export default {
   padding: 10px 10px;
   margin-bottom: 20px;
   width: 100%;
+  max-height: 65vh;
+  overflow-y: scroll;
 }
 .header {
   display: grid;
