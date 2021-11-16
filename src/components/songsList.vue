@@ -28,7 +28,9 @@
       v-for="(track, index) in tracks.items"
       :key="track.track.id"
       class="track"
-      @click="playSong({ uris: currentUris, offset: index })"
+      @click="
+        $emit('trackClicked', $event, { uris: currentUris, offset: index })
+      "
     >
       <span class="id">{{ index + 1 + tracks.offset }}</span>
       <div class="song-info">
@@ -67,7 +69,7 @@ export default {
   margin-bottom: 20px;
   width: 100%;
   max-height: 65vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .header {
   display: grid;

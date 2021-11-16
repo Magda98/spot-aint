@@ -153,14 +153,21 @@ export default {
   align-items: flex-start;
   justify-content: center;
   margin-top: 50px;
+
+  a {
+    text-decoration: none;
+  }
   div.playlist {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    h5 {
+      text-decoration: none;
+    }
   }
   img {
-    width: 30px;
+    width: 35px;
     margin-right: 15px;
   }
 }

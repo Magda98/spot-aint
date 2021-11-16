@@ -1,15 +1,17 @@
 <template>
-  <div class="favourites">
-    <h1>Ulubione utwory</h1>
+  <div class="playlist">
+    <h1>{{ currentPlaylist.name }}</h1>
     <songsList
-      :tracks="getFavourites"
-      :currentUris="getCurrentUris"
+      :tracks="playlistSongs"
+      :currentUris="getCurrentPlaylistUris"
+      @trackClicked="handleClick"
     ></songsList>
     <div class="pagination">
       <v-pagination
         flat
+        v-if="{}"
         v-model="page"
-        :length="Number.parseInt(getFavourites.total / getFavourites.limit)"
+        :length="Number.parseInt(playlistSongs.total / playlistSongs.limit)"
       ></v-pagination>
     </div>
   </div>
@@ -23,10 +25,18 @@ export default {
   name: 'Playlist',
   components: { songsList },
   methods: {
-    ...mapActions('spotify', ['fetchFavourites']),
+    ...mapActions('spotify', ['getPlaylistSongs', 'setCurrentPlaylist']),
+    ...mapActions('player', ['playPlaylist']),
+    handleClick(event, val) {
+      val.uris = this.currentPlaylist.uri;
+      val.offset = val.offset + (this.page - 1) * 7;
+      this.playPlaylist(val);
+    },
   },
-  created() {
-    this.page = this.currentPageFav;
+  mounted() {
+    this.setCurrentPlaylist(this.$route.params.id);
+    this.page = 1;
+    this.getPlaylistSongs({ id: this.$route.params.id, offset: 0, limit: 7 });
   },
 
   data() {
@@ -36,25 +46,31 @@ export default {
   },
   computed: {
     ...mapGetters('spotify', [
-      'getFavourites',
-      'getCurrentUris',
-      'currentPageFav',
+      'playlistSongs',
+      'getCurrentPlaylistUris',
+      'currentPlaylist',
     ]),
   },
   watch: {
     page: function (val) {
-      console.log(val);
-      this.fetchFavourites({
-        offset: (val - 1) * this.getFavourites.limit,
-        page: val,
+      this.getPlaylistSongs({
+        id: this.$route.params.id,
+        offset: (this.page - 1) * 7,
+        limit: 7,
       });
+    },
+    '$route.params.id': function (id) {
+      console.log('XD');
+      this.setCurrentPlaylist(id);
+      this.page = 1;
+      this.getPlaylistSongs({ id: id, offset: 0, limit: 7 });
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.favourites {
+.playlist {
   width: 100%;
   display: flex;
   justify-content: flex-start;

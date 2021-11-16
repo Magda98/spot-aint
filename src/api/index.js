@@ -115,4 +115,47 @@ export default {
       })
       .catch((e) => cb(e.response.data.error));
   },
+  getPlaylistSongs(cb, payload) {
+    axios
+      .get(`playlists/${payload.id}/tracks`, {
+        params: {
+          limit: payload.limit,
+          offset: payload.offset,
+        },
+      })
+      .then((response) => {
+        cb(response.data);
+      })
+      .catch((e) => {
+        cb(e.response.data.error);
+      });
+  },
+  playPlaylist(cb, data) {
+    console.log(data);
+    axios
+      .put(`me/player/play?device_id=${data.id}`, {
+        context_uri: data.track.uris,
+        offset: {
+          position: data.track.offset,
+        },
+      })
+      .then((response) => {
+        cb(response.data);
+      })
+      .catch((e) => cb(e.response.data.error));
+  },
+  getFeaturedPlaylists(cb, song) {
+    axios
+      .get(`browse/featured-playlists`, {
+        params: {
+          locale: 'pl_PL',
+          country: 'PL',
+          limit: 50,
+        },
+      })
+      .then((response) => {
+        cb(response.data);
+      })
+      .catch((e) => cb(e.response.data.error));
+  },
 };

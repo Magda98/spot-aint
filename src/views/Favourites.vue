@@ -4,6 +4,7 @@
     <songsList
       :tracks="getFavourites"
       :currentUris="getCurrentUris"
+      @trackClicked="handleClick"
     ></songsList>
     <div class="pagination">
       <v-pagination
@@ -24,6 +25,10 @@ export default {
   components: { songsList },
   methods: {
     ...mapActions('spotify', ['fetchFavourites']),
+    ...mapActions('player', ['playSong']),
+    handleClick(event, val) {
+      this.playSong(val);
+    },
   },
   created() {
     this.page = this.currentPageFav;

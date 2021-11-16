@@ -99,6 +99,19 @@ const actions = {
       { track: data, id: state.devId },
     );
   },
+  playPlaylist({ state }, data) {
+    api.playPlaylist(
+      (response) => {
+        if (response.status === 404) {
+          this.dispatch('toast/alert', {
+            message: response.message,
+            type: 'error',
+          });
+        }
+      },
+      { track: data, id: state.devId },
+    );
+  },
 
   playerPause({ commit }) {
     Vue.prototype.$player.togglePlay();

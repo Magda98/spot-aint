@@ -6,12 +6,16 @@ import {
 } from 'date-fns';
 import { format } from 'date-fns/esm';
 import { pl } from 'date-fns/locale';
+import router from '@/router';
 // initial state
 const state = {
   favouritesList: {},
   currentUserTrack: false,
   currentPageFav: 1,
   playlists: {},
+  playlistSongs: [],
+  currentPlaylist: {},
+  featuredPlaylists: {},
 };
 
 // getters
@@ -19,9 +23,14 @@ const getters = {
   getFavourites: (state) => state.favouritesList,
   getCurrentUris: (state) =>
     state.favouritesList.items.map((item) => item.track.uri),
+  getCurrentPlaylistUris: (state) =>
+    state.playlistSongs.items.map((item) => item.track.uri),
   currentUserTrack: (state) => state.currentUserTrack,
   currentPageFav: (state) => state.currentPageFav,
   playlists: (state) => state.playlists,
+  playlistSongs: (state) => state.playlistSongs,
+  currentPlaylist: (state) => state.currentPlaylist,
+  featuredPlaylists: (state) => state.featuredPlaylists,
 };
 
 // actions
@@ -57,7 +66,19 @@ const actions = {
   getPlaylists({ commit }) {
     api.getPlaylists((response) => {
       commit('savePlaylists', response);
-      console.log(response);
+    });
+  },
+  getPlaylistSongs({ commit }, payload) {
+    api.getPlaylistSongs((response) => {
+      commit('savePlaylistSongs', response);
+    }, payload);
+  },
+  setCurrentPlaylist({ commit }, id) {
+    commit('setCurrentPlaylist', id);
+  },
+  getFeaturedPlaylists({ commit }) {
+    api.getFeaturedPlaylists((response) => {
+      commit('saveFeaturedPlaylists', response);
     });
   },
 };
@@ -80,6 +101,26 @@ const mutations = {
   },
   savePlaylists(state, playlists) {
     state.playlists = playlists;
+  },
+  savePlaylistSongs(state, songs) {
+    songs.items.forEach((item) => {
+      item.added_at = formatDistanceToNowStrict(new Date(item.added_at), {
+        addSuffix: true,
+        locale: pl,
+      });
+      item.track.duration = format(new Date(item.track.duration_ms), 'mm:ss');
+    });
+    state.playlistSongs = songs;
+  },
+  setCurrentPlaylist(state, id) {
+    const allPlaylists = [
+      ...state.playlists?.items,
+      ...state.featuredPlaylists?.playlists?.items,
+    ];
+    state.currentPlaylist = allPlaylists.find((item) => item.id == id);
+  },
+  saveFeaturedPlaylists(state, playlists) {
+    state.featuredPlaylists = playlists;
   },
 };
 
