@@ -158,4 +158,21 @@ export default {
       })
       .catch((e) => cb(e.response.data.error));
   },
+  getSearchResult(cb, query) {
+    axios
+      .get(`search`, {
+        params: {
+          q: query,
+          type: 'track',
+          include_external: 'audio',
+          limit: 25,
+          market: 'from_token',
+          offset: 0,
+        },
+      })
+      .then((response) => {
+        cb(response.data);
+      })
+      .catch((e) => cb(e.response.data.error));
+  },
 };

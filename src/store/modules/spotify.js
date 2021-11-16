@@ -1,9 +1,5 @@
 import api from '@/api';
-import {
-  formatDistanceToNowStrict,
-  startOfSecond,
-  startOfYesterday,
-} from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 import { format } from 'date-fns/esm';
 import { pl } from 'date-fns/locale';
 import router from '@/router';
@@ -16,6 +12,7 @@ const state = {
   playlistSongs: [],
   currentPlaylist: {},
   featuredPlaylists: {},
+  searchResult: false,
 };
 
 // getters
@@ -31,6 +28,12 @@ const getters = {
   playlistSongs: (state) => state.playlistSongs,
   currentPlaylist: (state) => state.currentPlaylist,
   featuredPlaylists: (state) => state.featuredPlaylists,
+  searchResult: (state) => state.searchResult,
+  searchResultUris: (state) => {
+    if (state.searchResult)
+      return state.searchResult?.items.map((item) => item?.track.uri);
+    else return false;
+  },
 };
 
 // actions
@@ -81,6 +84,12 @@ const actions = {
       commit('saveFeaturedPlaylists', response);
     });
   },
+
+  getSearchResult({ commit }, query) {
+    api.getSearchResult((response) => {
+      commit('saveSearchResult', response);
+    }, query);
+  },
 };
 
 // mutations
@@ -121,6 +130,9 @@ const mutations = {
   },
   saveFeaturedPlaylists(state, playlists) {
     state.featuredPlaylists = playlists;
+  },
+  saveSearchResult(state, searchResult) {
+    state.searchResult = searchResult;
   },
 };
 

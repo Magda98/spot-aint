@@ -102,6 +102,16 @@ body {
   .v-slider__track {
     height: 5px;
   }
+  .v-input.search {
+    border-radius: 10px;
+    max-height: 40px;
+    max-width: 100%;
+    width: 100%;
+    padding: 0 50px;
+    .v-input__slot {
+      background-color: #fff;
+    }
+  }
   .pagination {
     ul li button {
       background: transparent;
