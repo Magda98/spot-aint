@@ -20,6 +20,13 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    beforeEnter(to, from, next) {
+      if (to.query.code) {
+        next({ name: 'Callback', query: to.query });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/callback',
