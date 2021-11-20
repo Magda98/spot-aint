@@ -50,7 +50,8 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
+  // base: '/spot-aint/',
   base: process.env.BASE_URL,
   routes,
 });
