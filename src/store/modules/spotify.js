@@ -39,8 +39,10 @@ const getters = {
 // actions
 const actions = {
   fetchFavourites({ commit }, payload) {
+    this.dispatch('loader/showLoader');
     api.getUserTracks((response) => {
       commit('saveFavourites', { response: response, page: payload.page });
+      this.dispatch('loader/hideLoader');
     }, payload.offset);
   },
   checkIfUserTracks({ commit }, payload) {
@@ -72,16 +74,22 @@ const actions = {
     });
   },
   getPlaylistSongs({ commit }, payload) {
+    this.dispatch('loader/showLoader');
+
     api.getPlaylistSongs((response) => {
       commit('savePlaylistSongs', response);
+      this.dispatch('loader/hideLoader');
     }, payload);
   },
   setCurrentPlaylist({ commit }, id) {
     commit('setCurrentPlaylist', id);
   },
   getFeaturedPlaylists({ commit }) {
+    this.dispatch('loader/showLoader');
+
     api.getFeaturedPlaylists((response) => {
       commit('saveFeaturedPlaylists', response);
+      this.dispatch('loader/hideLoader');
     });
   },
 

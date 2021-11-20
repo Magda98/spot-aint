@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div v-if="songInfo.track_window" class="player">
     <v-slider
       class="player-slider"
       color="#1ed760"
@@ -231,7 +231,7 @@ export default {
   width: 100%;
   left: 0;
   right: 0;
-  padding-left: 293px;
+  padding-left: 310px;
   padding-right: 20px;
   height: 150px;
   background-color: $background-2;
@@ -242,8 +242,8 @@ export default {
   .player-slider {
     position: absolute;
     top: -14px;
-    left: 263px;
-    right: 0;
+    left: 302px;
+    right: -8px;
   }
   .volume-slider {
     max-width: 200px;

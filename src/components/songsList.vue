@@ -94,6 +94,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    text-align: left;
   }
 }
 .track {
@@ -108,6 +109,7 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    text-align: left;
   }
   .id,
   .duration {

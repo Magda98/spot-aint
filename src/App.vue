@@ -2,7 +2,16 @@
   <v-app>
     <div id="app">
       <div id="nav"><sidebar></sidebar></div>
-      <router-view />
+      <div class="main">
+        <router-view />
+        <div v-if="loader" class="loader">
+          <v-progress-circular
+            class="progress-circular"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+      </div>
     </div>
     <player v-if="userInfo"></player>
     <v-snackbar
@@ -50,6 +59,7 @@ export default {
       'showAlert',
     ]),
     ...mapGetters('user', ['userInfo']),
+    ...mapGetters('loader', ['loader']),
   },
   methods: {
     ...mapActions('toast', ['hideAlert']),
@@ -62,7 +72,20 @@ export default {
 body {
   margin: 0;
 }
-
+.main {
+  position: relative;
+  flex: 1;
+  .loader {
+    background-color: $background;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
 .btn {
   background-color: $primary;
   border: 4px solid $primary;
@@ -134,7 +157,7 @@ body {
 
 #nav {
   padding: 30px;
-  width: 307px;
+  width: 310px;
   min-height: 100vh;
   background-color: $background-2;
   a {

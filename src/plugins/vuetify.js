@@ -9,6 +9,13 @@ const opts = {
   icons: {
     iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
   },
+  theme: {
+    themes: {
+      light: {
+        primary: '#1ed760',
+      },
+    },
+  },
 };
 
 export default new Vuetify(opts);
