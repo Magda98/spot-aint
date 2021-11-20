@@ -40,10 +40,7 @@ const actions = {
   async login() {
     const baseUrl = 'https://accounts.spotify.com/authorize';
     const clientId = '57a795ef5d9a4ccca747877d47fbc61d';
-    // const redirectUri = 'http://localhost:8080/callback';
-    const redirectUri = encodeURIComponent(
-      'https://magda98.github.io/spot-aint/#/callback',
-    );
+    const redirectUri = process.env.BASE_URL;
     const code_verifier = base64url(randomBytes(96));
     let code = await generateCodeChallenge(code_verifier);
 
@@ -96,8 +93,7 @@ const mutations = {
     state.userInfo = userInfo;
     state.logged_in = true;
     setTimeout(function () {
-      router.push('/');
-      window.location.reload();
+      window.location.href = '/';
     }, 200);
   },
   logout(state) {

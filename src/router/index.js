@@ -17,19 +17,6 @@ const routes = [
     component: Login,
   },
   {
-    path: '/',
-    name: 'Home',
-    component: Home,
-    beforeEnter(to, from, next) {
-      console.log(to);
-      if (to.query.code) {
-        next({ name: 'Callback', query: to.query });
-      } else {
-        next();
-      }
-    },
-  },
-  {
     path: '/callback',
     name: 'Callback',
     component: Callback,
@@ -55,6 +42,20 @@ const routes = [
     name: 'Playlist',
     component: Playlist,
   },
+  {
+    path: '/',
+    name: 'Home',
+    exact: true,
+    component: Home,
+    beforeEnter(to, from, next) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('code')) {
+        next({ name: 'Callback', query: { code: params.get('code') } });
+      } else {
+        next();
+      }
+    },
+  },
 ];
 
 const router = new VueRouter({
@@ -62,11 +63,6 @@ const router = new VueRouter({
   // base: '/spot-aint/',
   base: process.env.BASE_URL,
   routes,
-});
-
-router.beforeEach((to, from, next) => {
-  console.log(to);
-  next();
 });
 
 export default router;
