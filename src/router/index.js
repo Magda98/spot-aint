@@ -21,6 +21,7 @@ const routes = [
     name: 'Home',
     component: Home,
     beforeEnter(to, from, next) {
+      console.log(to);
       if (to.query.code) {
         next({ name: 'Callback', query: to.query });
       } else {
