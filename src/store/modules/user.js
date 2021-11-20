@@ -94,7 +94,7 @@ const mutations = {
     state.userInfo = userInfo;
     state.logged_in = true;
     setTimeout(function () {
-      window.location.href = '/';
+      window.location.href = process.env.BASE_URL;
     }, 200);
   },
   logout(state) {
