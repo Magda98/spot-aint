@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist">
+  <div v-if="playlistSongs" class="playlist">
     <h1>{{ currentPlaylist.name }}</h1>
     <songsList
       :tracks="playlistSongs"
@@ -60,7 +60,6 @@ export default {
       });
     },
     '$route.params.id': function (id) {
-      console.log('XD');
       this.setCurrentPlaylist(id);
       this.page = 1;
       this.getPlaylistSongs({ id: id, offset: 0, limit: 7 });

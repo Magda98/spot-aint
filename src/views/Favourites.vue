@@ -31,7 +31,10 @@ export default {
     },
   },
   created() {
-    this.page = this.currentPageFav;
+    this.fetchFavourites({
+      offset: 0,
+      page: 1,
+    });
   },
 
   data() {
@@ -48,7 +51,6 @@ export default {
   },
   watch: {
     page: function (val) {
-      console.log(val);
       this.fetchFavourites({
         offset: (val - 1) * this.getFavourites.limit,
         page: val,

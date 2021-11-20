@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div v-if="featuredPlaylists" class="home">
     <h1>Polecane</h1>
     <div class="playlists">
       <div

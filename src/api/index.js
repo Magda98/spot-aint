@@ -20,8 +20,12 @@ export default {
     const urlParams = new URLSearchParams();
     urlParams.append('grant_type', 'authorization_code');
     urlParams.append('code', params.code);
-    // urlParams.append('redirect_uri', 'http://localhost:8080/callback');
-    urlParams.append('redirect_uri', 'https://magda98.github.io/spot-aint/');
+    urlParams.append(
+      'redirect_uri',
+      process.env.NODE_ENV === 'production'
+        ? 'https://magda98.github.io/spot-aint/'
+        : 'http://localhost:8080/',
+    );
     urlParams.append('client_id', api.clientID);
     urlParams.append('code_verifier', code_verifier);
 
@@ -132,7 +136,6 @@ export default {
       });
   },
   playPlaylist(cb, data) {
-    console.log(data);
     axios
       .put(`me/player/play?device_id=${data.id}`, {
         context_uri: data.track.uris,

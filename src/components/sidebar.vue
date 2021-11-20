@@ -43,7 +43,7 @@
       </router-link>
     </div>
 
-    <div v-if="playlists" class="plylists">
+    <div v-if="playlists && userInfo" class="plylists">
       <div v-for="playlist in playlists.items" :key="playlist.id">
         <router-link :to="{ name: 'Playlist', params: { id: playlist.id } }">
           <div class="playlist">
