@@ -88,7 +88,6 @@ const actions = {
   getSearchResult({ commit }, query) {
     api.getSearchResult((response) => {
       commit('saveSearchResult', response);
-      console.log(response);
     }, query);
   },
 };
