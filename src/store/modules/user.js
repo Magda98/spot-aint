@@ -41,7 +41,7 @@ const actions = {
     const baseUrl = 'https://accounts.spotify.com/authorize';
     const clientId = '57a795ef5d9a4ccca747877d47fbc61d';
     // const redirectUri = 'http://localhost:8080/callback';
-    const redirectUri = 'https://magda98.github.io/spot-aint/callback';
+    const redirectUri = 'https://magda98.github.io/spot-aint/#/callback';
     const code_verifier = base64url(randomBytes(96));
     let code = await generateCodeChallenge(code_verifier);
 

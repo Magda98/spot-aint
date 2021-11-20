@@ -20,7 +20,11 @@ export default {
     const urlParams = new URLSearchParams();
     urlParams.append('grant_type', 'authorization_code');
     urlParams.append('code', params.code);
-    urlParams.append('redirect_uri', 'http://localhost:8080/callback');
+    // urlParams.append('redirect_uri', 'http://localhost:8080/callback');
+    urlParams.append(
+      'redirect_uri',
+      'https://magda98.github.io/spot-aint/#/callback',
+    );
     urlParams.append('client_id', api.clientID);
     urlParams.append('code_verifier', code_verifier);
 
