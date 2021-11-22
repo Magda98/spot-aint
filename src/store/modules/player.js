@@ -43,7 +43,8 @@ const actions = {
       });
       player.addListener('account_error', ({ message }) => {
         this.dispatch('toast/alert', {
-          message: 'Nie masz konta premium',
+          message:
+            'Nie masz konta premium - odtwarzanie muzyki w aplikacji nie będzie możliwe',
           type: 'error',
         });
       });
