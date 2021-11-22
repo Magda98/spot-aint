@@ -42,7 +42,10 @@ const actions = {
         console.error(message);
       });
       player.addListener('account_error', ({ message }) => {
-        console.error(message);
+        this.dispatch('toast/alert', {
+          message: 'Nie masz konta premium',
+          type: 'error',
+        });
       });
       player.addListener('playback_error', ({ message }) => {
         console.error(message);
