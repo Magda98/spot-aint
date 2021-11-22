@@ -12,7 +12,11 @@
       </div>
     </div>
     <div v-if="userInfo" class="sidebar-user-info">
-      <img class="user-image" :src="userInfo.images[0].url" />
+      <img
+        v-if="userInfo.images[0]"
+        class="user-image"
+        :src="userInfo.images[0].url"
+      />
       <p>{{ userInfo.display_name }}</p>
     </div>
 

@@ -169,13 +169,17 @@ body {
 }
 
 .sp-snackbar {
+  .v-snack__wrapper {
+    padding: 15px;
+  }
   .v-snack__content {
     position: relative;
+    padding: 20px;
   }
   button.v-btn {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: -20px;
+    top: -12px;
   }
 }
 </style>

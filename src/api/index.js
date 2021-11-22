@@ -68,17 +68,24 @@ export default {
   },
 
   playSong(cb, data) {
-    axios
-      .put(`me/player/play?device_id=${data.id}`, {
-        uris: data.track.uris,
-        offset: {
-          position: data.track.offset,
-        },
-      })
-      .then((response) => {
-        cb(response.data);
-      })
-      .catch((e) => cb(e.response.data.error));
+    if (!data.id) {
+      cb({ status: 403 });
+    } else {
+      axios
+        .put(`me/player/play?device_id=${data.id}`, {
+          uris: data.track.uris,
+          offset: {
+            position: data.track.offset,
+          },
+        })
+        .then((response) => {
+          cb(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+          cb(e.response.data.error);
+        });
+    }
   },
   checkIfUserTracks(cb, song) {
     axios

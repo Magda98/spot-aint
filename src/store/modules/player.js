@@ -44,7 +44,7 @@ const actions = {
       player.addListener('account_error', ({ message }) => {
         this.dispatch('toast/alert', {
           message:
-            'Nie masz konta premium - odtwarzanie muzyki w aplikacji nie będzie możliwe',
+            'Nie posiadasz premium - odtwarzanie muzyki nie będzie możliwe',
           type: 'error',
         });
       });
@@ -96,6 +96,12 @@ const actions = {
         if (response.status === 404) {
           this.dispatch('toast/alert', {
             message: response.message,
+            type: 'error',
+          });
+        } else if (response.status === 403) {
+          this.dispatch('toast/alert', {
+            message:
+              'Nie posiadasz premium - odtwarzanie muzyki nie będzie możliwe',
             type: 'error',
           });
         }
