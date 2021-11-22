@@ -4,7 +4,7 @@
       <div id="nav"><sidebar></sidebar></div>
       <div class="main">
         <router-view />
-        <div v-if="loader" class="loader">
+        <div v-if="loader && userInfo" class="loader">
           <v-progress-circular
             class="progress-circular"
             indeterminate
@@ -75,6 +75,8 @@ body {
 .main {
   position: relative;
   flex: 1;
+  justify-content: center;
+  align-items: center;
   .loader {
     background-color: $background;
     position: absolute;
