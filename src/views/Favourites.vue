@@ -10,7 +10,7 @@
       <v-pagination
         flat
         v-model="page"
-        :length="Number.parseInt(getFavourites.total / getFavourites.limit) + 1"
+        :length="Math.ceil(getFavourites.total / getFavourites.limit)"
       ></v-pagination>
     </div>
   </div>

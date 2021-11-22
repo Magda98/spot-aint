@@ -11,7 +11,7 @@
         flat
         v-if="{}"
         v-model="page"
-        :length="Number.parseInt(playlistSongs.total / playlistSongs.limit) + 1"
+        :length="Math.ceil(playlistSongs.total / playlistSongs.limit)"
       ></v-pagination>
     </div>
   </div>
