@@ -19,9 +19,9 @@ const state = {
 const getters = {
   getFavourites: (state) => state.favouritesList,
   getCurrentUris: (state) =>
-    state.favouritesList.items.map((item) => item.track.uri),
+    state.favouritesList?.items?.map((item) => item.track.uri),
   getCurrentPlaylistUris: (state) =>
-    state.playlistSongs.items.map((item) => item.track.uri),
+    state.playlistSongs?.items?.map((item) => item.track.uri),
   currentUserTrack: (state) => state.currentUserTrack,
   currentPageFav: (state) => state.currentPageFav,
   playlists: (state) => state.playlists,
@@ -54,7 +54,7 @@ const actions = {
     api.saveUserTracks(() => {
       commit('setUserTrackinfo', [true]);
       dispatch('fetchFavourites', {
-        offset: state.currentPageFav * state.favouritesList.limit,
+        offset: (state.currentPageFav - 1) * state.favouritesList.limit,
         page: state.currentPageFav,
       });
     }, payload);
@@ -63,7 +63,7 @@ const actions = {
     api.deleteUserTracks(() => {
       commit('setUserTrackinfo', [false]);
       dispatch('fetchFavourites', {
-        offset: state.currentPageFav * state.favouritesList.limit,
+        offset: (state.currentPageFav - 1) * state.favouritesList.limit,
         page: state.currentPageFav,
       });
     }, payload);

@@ -117,6 +117,12 @@ const actions = {
             message: response.message,
             type: 'error',
           });
+        } else if (response.status === 403) {
+          this.dispatch('toast/alert', {
+            message:
+              'Nie posiadasz premium - odtwarzanie muzyki nie będzie możliwe',
+            type: 'error',
+          });
         }
       },
       { track: data, id: state.devId },

@@ -68,7 +68,9 @@ export default {
   padding: 10px 10px;
   margin-bottom: 20px;
   width: 100%;
-  max-height: 65vh;
+  height: 100%;
+  min-height: 100%;
+  height: 60vh;
   overflow-y: auto;
 }
 .header {

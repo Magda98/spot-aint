@@ -1,5 +1,5 @@
 <template>
-  <div v-if="featuredPlaylists" class="home">
+  <div v-if="featuredPlaylists && isLogged" class="home">
     <h1>Polecane</h1>
     <div class="playlists">
       <div
@@ -28,10 +28,13 @@ export default {
     ...mapActions('spotify', ['getFeaturedPlaylists']),
   },
   created() {
-    this.getFeaturedPlaylists();
+    if (this.isLogged) {
+      this.getFeaturedPlaylists();
+    }
   },
   computed: {
     ...mapGetters('spotify', ['featuredPlaylists']),
+    ...mapGetters('user', ['isLogged']),
   },
 };
 </script>
@@ -48,7 +51,7 @@ h1 {
   text-align: left;
   width: 100%;
   padding: 0 20px;
-  margin: 30px 0 20px 0;
+  margin: 0px 0 20px 0;
   font-size: 26px;
   font-weight: 700;
 }

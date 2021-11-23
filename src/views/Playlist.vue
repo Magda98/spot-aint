@@ -83,7 +83,7 @@ h1 {
   text-align: left;
   width: 100%;
   padding: 0 20px;
-  margin: 30px 0 20px 0;
+  margin: 0px 0 20px 0;
   font-size: 26px;
   font-weight: 700;
 }

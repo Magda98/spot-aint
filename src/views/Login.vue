@@ -42,6 +42,7 @@ export default {
   align-items: center;
   margin-bottom: 20px;
   padding: 0 20px;
+  width: 100%;
   .title-inner {
     margin-left: 20px;
     font-size: 60px;

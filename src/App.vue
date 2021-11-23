@@ -73,6 +73,7 @@ body {
   margin: 0;
 }
 .main {
+  padding-top: 50px;
   position: relative;
   flex: 1;
   justify-content: center;
