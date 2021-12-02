@@ -28,9 +28,6 @@ new Vue({
       },
       function (error) {
         if (error.response.status === 401) {
-          console.log(
-            'refresh: ' + VueInstance.$store.state.user.token.refresh_token,
-          );
           delete axios.defaults.headers.common['Authorization'];
           const urlParams = new URLSearchParams();
           urlParams.append('grant_type', 'refresh_token');
@@ -47,10 +44,8 @@ new Vue({
               },
             })
             .then((response) => {
-              console.log(response);
               axios.defaults.headers.common['Authorization'] =
                 'Bearer ' + response.data.access_token;
-              console.log(response.data);
               VueInstance.$store.commit('user/saveToken', response.data);
               VueInstance.$store.dispatch('user/getUserInfo');
               return axios.request(error.config);
