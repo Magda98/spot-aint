@@ -71,7 +71,7 @@ const actions = {
     const params = queryString.parse(location.search);
 
     api.getToken((token) => {
-      commit('saveToken', { token });
+      commit('saveToken', token);
       dispatch('getUserInfo');
     }, params);
   },
@@ -88,7 +88,8 @@ const actions = {
 
 // mutations
 const mutations = {
-  saveToken(state, { token }) {
+  saveToken(state, token) {
+    console.log(token);
     state.token = token;
     state.logged_in = true;
   },

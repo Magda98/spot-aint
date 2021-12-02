@@ -28,7 +28,38 @@ new Vue({
       },
       function (error) {
         if (error.response.status === 401) {
-          this.$store.dispatch('user/logout');
+          console.log(
+            'refresh: ' + VueInstance.$store.state.user.token.refresh_token,
+          );
+          delete axios.defaults.headers.common['Authorization'];
+          const urlParams = new URLSearchParams();
+          urlParams.append('grant_type', 'refresh_token');
+          urlParams.append(
+            'refresh_token',
+            VueInstance.$store.state.user.token.refresh_token,
+          );
+          urlParams.append('client_id', '57a795ef5d9a4ccca747877d47fbc61d');
+
+          axios
+            .post('https://accounts.spotify.com/api/token', urlParams, {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            })
+            .then((response) => {
+              console.log(response);
+              axios.defaults.headers.common['Authorization'] =
+                'Bearer ' + response.data.access_token;
+              console.log(response.data);
+              VueInstance.$store.commit('user/saveToken', response.data);
+              VueInstance.$store.dispatch('user/getUserInfo');
+              return axios.request(error.config);
+            })
+            .catch((e) => {
+              return Promise.reject(error);
+            });
+        } else {
+          return Promise.reject(error);
         }
       },
     );
