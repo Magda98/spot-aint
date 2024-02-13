@@ -1,5 +1,5 @@
 # spot-aint
-Web player for spotify using Spotify API
+Web player for spotify using Spotify API developed in Vue
 
 ### App functionalities:
 - Authorization: OAuth 2 with PKCE
